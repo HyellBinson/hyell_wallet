@@ -40,12 +40,16 @@ class _BalanceCardState extends State<BalanceCard> {
                     children: [
                       Row(
                         children: [
-                          Text(
-                            'Available balance',
-                            style: TextStyle(
-                              color: colors.onPrimary,
-                              fontSize: 13,
-                              fontWeight: FontWeight.w500,
+                          Flexible(
+                            child: Text(
+                              'Available balance',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                color: colors.onPrimary,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
 
@@ -72,15 +76,19 @@ class _BalanceCardState extends State<BalanceCard> {
 
                       const SizedBox(height: 3),
 
-                      Text(
-                        _isBalanceVisible
-                            ? '₦${widget.balance.toStringAsFixed(2)}'
-                            : '₦ ••••••••',
-                        style: TextStyle(
-                          color: colors.onPrimary,
-                          fontSize: 25,
-                          fontWeight: FontWeight.w800,
-                          letterSpacing: -0.5,
+                      FittedBox(
+                        fit: BoxFit.scaleDown,
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          _isBalanceVisible
+                              ? '₦${widget.balance.toStringAsFixed(2)}'
+                              : '₦ ••••••••',
+                          style: TextStyle(
+                            color: colors.onPrimary,
+                            fontSize: 25,
+                            fontWeight: FontWeight.w800,
+                            letterSpacing: -0.5,
+                          ),
                         ),
                       ),
                     ],
@@ -88,23 +96,31 @@ class _BalanceCardState extends State<BalanceCard> {
                 ),
               ),
 
-              const SizedBox(width: 12),
+              const SizedBox(width: 8),
 
-              FilledButton.icon(
-                onPressed: () {},
-                icon: const Icon(Icons.add_rounded, size: 16),
-                label: const Text('Add money'),
-                style: FilledButton.styleFrom(
-                  backgroundColor: colors.onPrimary,
-                  foregroundColor: colors.primary,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 7,
-                  ),
-                  minimumSize: Size.zero,
-                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+              Flexible(
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: FilledButton.icon(
+                    onPressed: () {},
+                    icon: const Icon(Icons.add_rounded, size: 16),
+                    label: const FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text('Add money'),
+                    ),
+                    style: FilledButton.styleFrom(
+                      backgroundColor: colors.onPrimary,
+                      foregroundColor: colors.primary,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 7,
+                      ),
+                      minimumSize: Size.zero,
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
                   ),
                 ),
               ),

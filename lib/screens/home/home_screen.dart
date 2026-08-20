@@ -13,12 +13,14 @@ class HomeScreen extends StatelessWidget {
 
     final screenWidth = MediaQuery.of(context).size.width;
     final sectionWidthSpacing = screenWidth < 400 ? 4.0 : 8.0;
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             children: [
+              // 🔒 FIXED HEADER
               Row(
                 children: [
                   const CircleAvatar(
@@ -32,13 +34,14 @@ class HomeScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           'Good day 👋',
                           style: TextStyle(fontSize: 13, color: Colors.grey),
                         ),
 
                         const SizedBox(height: 2),
-                        Text(
+
+                        const Text(
                           'Hyell',
                           style: TextStyle(
                             fontSize: 20,
@@ -48,6 +51,7 @@ class HomeScreen extends StatelessWidget {
                       ],
                     ),
                   ),
+
                   IconButton(
                     onPressed: () {},
                     icon: const Icon(
@@ -57,13 +61,32 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ],
               ),
+
               SizedBox(height: sectionSpacing),
 
-              const BalanceCard(balance: 150000),
-              SizedBox(height: sectionSpacing),
-              const RecentTransaction(),
-              const SizedBox(height: 14),
-              const QuickServices(),
+              // 📜 SCROLLABLE CONTENT
+              Expanded(
+                child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: Column(
+                    children: [
+                      const BalanceCard(balance: 150000),
+
+                      Transform.translate(
+                        offset: const Offset(0, -10),
+                        child: const RecentTransaction(),
+                      ),
+
+                      Transform.translate(
+                        offset: const Offset(0, -4),
+                        child: const QuickServices(),
+                      ),
+
+                      const SizedBox(height: 10),
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
         ),

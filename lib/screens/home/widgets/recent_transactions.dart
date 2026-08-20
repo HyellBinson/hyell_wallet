@@ -25,24 +25,31 @@ class RecentTransaction extends StatelessWidget {
               // see all button
               Row(
                 children: [
-                  Text(
-                    'Recent transactions',
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w700,
+                  FittedBox(
+                    child: Text(
+                      'Recent transactions',
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                   ),
 
                   const Spacer(),
 
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (_) => const TransactionsScreen(),
-                        ),
-                      );
-                    },
-                    child: const Text('See all'),
+                  Flexible(
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => const TransactionsScreen(),
+                          ),
+                        );
+                      },
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: const Text('See all'),
+                      ),
+                    ),
                   ),
                 ],
               ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hyell_wallet/screens/main_shell.dart';
 import '../../core/constants/app_colors.dart';
 import '../home/home_screen.dart';
 
@@ -88,7 +89,7 @@ class _SplashScreenState extends State<SplashScreen>
 
       Navigator.of(
         context,
-      ).pushReplacement(MaterialPageRoute(builder: (_) => const HomeScreen()));
+      ).pushReplacement(MaterialPageRoute(builder: (_) => const MainShell()));
     });
   }
 
