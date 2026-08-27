@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'widgets/balance_card.dart';
 import '../home/widgets/recent_transactions.dart';
 import 'widgets/quick_services.dart';
+import 'widgets/offers_section.dart';
+import 'widgets/rewards_preview.dart';
+import '../notifications/notification_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -53,7 +56,13 @@ class HomeScreen extends StatelessWidget {
                   ),
 
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => const NotificationsScreen(),
+                        ),
+                      );
+                    },
                     icon: const Icon(
                       Icons.notifications_none_rounded,
                       size: 27,
@@ -72,17 +81,29 @@ class HomeScreen extends StatelessWidget {
                     children: [
                       const BalanceCard(balance: 150000),
 
+                      //  recent transaction linking
                       Transform.translate(
                         offset: const Offset(0, -10),
                         child: const RecentTransaction(),
                       ),
 
+                      // quick service linking
                       Transform.translate(
                         offset: const Offset(0, -4),
                         child: const QuickServices(),
                       ),
 
-                      const SizedBox(height: 10),
+                      // offers section linking
+                      Transform.translate(
+                        offset: const Offset(0, 10),
+                        child: const OffersSection(),
+                      ),
+
+                      // rewards section linking
+                      Transform.translate(
+                        offset: const Offset(0, 20),
+                        child: const RewardsPreview(),
+                      ),
                     ],
                   ),
                 ),
