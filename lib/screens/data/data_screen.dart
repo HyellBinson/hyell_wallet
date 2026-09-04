@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:hyell_wallet/core/constants/app_colors.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
+
 import '../data/data_plan.dart';
+import '../security/setup_pin_screen.dart';
+import '../security/enter_pin_screen.dart';
+import '../data/data_history_screen.dart';
+
+import '../../widgets/enter_pin_sheet.dart';
+import '../../models/transaction_model.dart';
 
 class DataScreen extends StatefulWidget {
-  const DataScreen({super.key});
+  final bool isClaimingBonus;
+  const DataScreen({super.key, this.isClaimingBonus = false});
 
   @override
   State<DataScreen> createState() => _DataScreenState();
@@ -75,7 +83,18 @@ class _DataScreenState extends State<DataScreen> {
                   ),
 
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const TransactionSuccess(
+                            title: 'Bonus Activated!',
+                            message:
+                                'Your free 50 MB bonus has been activated.',
+                          ),
+                        ),
+                      );
+                    },
                     child: Text(
                       'History',
                       style: TextStyle(
@@ -187,6 +206,7 @@ class _DataScreenState extends State<DataScreen> {
               // ======================================================
               if (selectedNetwork != null) ...[
                 const SizedBox(height: 18),
+
                 Text(
                   'Phone number',
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
@@ -204,37 +224,42 @@ class _DataScreenState extends State<DataScreen> {
                     });
                   },
                 ),
+
+                const SizedBox(height: 20),
+
+                if (widget.isClaimingBonus)
+                  _BonusClaimSection(
+                    phoneNumber: phoneNumber,
+                    network: selectedNetwork!,
+                  )
+                else
+                  _DataPlansSection(
+                    selectedNetwork: selectedNetwork!,
+                    selectedCategory: selectedCategory,
+                    onCategorySelected: (category) {
+                      setState(() {
+                        selectedCategory = category;
+                        selectedPlanId = null;
+                      });
+                    },
+                    selectedPlanId: selectedPlanId,
+                    onPlanSelected: (planId) {
+                      setState(() {
+                        selectedPlanId = planId;
+                      });
+
+                      final plan = dataPlans.firstWhere(
+                        (plan) => plan.id == planId,
+                      );
+
+                      _showPurchaseSheet(context, plan);
+                    },
+                  ),
               ],
 
               // ===========================================================
               // Data Plans
               // ===========================================================
-              if (selectedNetwork != null) ...[
-                const SizedBox(height: 22),
-
-                _DataPlansSection(
-                  selectedNetwork: selectedNetwork!,
-                  selectedCategory: selectedCategory,
-                  onCategorySelected: (category) {
-                    setState(() {
-                      selectedCategory = category;
-                      selectedPlanId = null;
-                    });
-                  },
-                  selectedPlanId: selectedPlanId,
-                  onPlanSelected: (planId) {
-                    setState(() {
-                      selectedPlanId = planId;
-                    });
-
-                    final plan = dataPlans.firstWhere(
-                      (plan) => plan.id == planId,
-                    );
-
-                    _showPurchaseSheet(context, plan);
-                  },
-                ),
-              ],
             ],
           ),
         ),
@@ -380,11 +405,22 @@ class _PurchaseBottomSheet extends StatelessWidget {
             child: FilledButton(
               onPressed: phoneNumber.trim().isEmpty
                   ? null
-                  : () {
-                      // Real purchase logic will come later.
+                  : () async {
+                      Navigator.pop(context);
+
+                      final pinConfirmed = await showModalBottomSheet<bool>(
+                        context: context,
+                        isScrollControlled: true,
+                        backgroundColor: Colors.transparent,
+                        builder: (_) => const EnterPinSheet(),
+                      );
+
+                      if (pinConfirmed == true) {
+                        // Actual purchase logic will come here later.
+                      }
                     },
               child: const Text(
-                'Buy Data',
+                'Confirm',
                 style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800),
               ),
             ),
@@ -394,6 +430,10 @@ class _PurchaseBottomSheet extends StatelessWidget {
     );
   }
 }
+
+// pin
+
+// pin
 
 class _PurchaseSummary extends StatelessWidget {
   final String network;
@@ -989,5 +1029,566 @@ class _DataPlanCard extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+// data bonus
+
+class _BonusClaimSection extends StatelessWidget {
+  final String phoneNumber;
+  final String network; // Assuming the network is T2 for the bonus claim.
+
+  const _BonusClaimSection({required this.phoneNumber, required this.network});
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+
+    final canClaim = phoneNumber.trim().isNotEmpty;
+
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: colors.surface,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: colors.outlineVariant),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 46,
+                height: 46,
+                decoration: BoxDecoration(
+                  color: colors.primary.withValues(alpha: 0.10),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.card_giftcard_rounded,
+                  color: colors.primary,
+                  size: 23,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'First Transaction Bonus',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      'Your free data reward is ready.',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: colors.onSurfaceVariant,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 18),
+
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 14),
+            decoration: BoxDecoration(
+              color: colors.primary.withValues(alpha: 0.08),
+              borderRadius: BorderRadius.circular(14),
+            ),
+            child: Column(
+              children: [
+                Text(
+                  '50 MB',
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.w900,
+                    color: colors.primary,
+                  ),
+                ),
+                const SizedBox(height: 3),
+                Text(
+                  'FREE DATA BONUS',
+                  style: TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w800,
+                    color: colors.onSurfaceVariant,
+                    letterSpacing: 0.5,
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          const SizedBox(height: 16),
+
+          SizedBox(
+            width: double.infinity,
+            height: 46,
+            child: FilledButton(
+              onPressed: canClaim
+                  ? () {
+                      showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        backgroundColor: Colors.transparent,
+                        builder: (_) {
+                          return _BonusClaimConfirmation(
+                            phoneNumber: phoneNumber,
+                            network: network,
+                          );
+                        },
+                      );
+                    }
+                  : null,
+              child: const Text(
+                'Claim 50MB',
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+// bonus claim section configuration
+
+class _BonusClaimConfirmation extends StatelessWidget {
+  final String phoneNumber;
+  final String network;
+
+  const _BonusClaimConfirmation({
+    required this.phoneNumber,
+    required this.network,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+
+    return SafeArea(
+      child: Container(
+        padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
+        decoration: BoxDecoration(
+          color: colors.surface,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 42,
+              height: 4,
+              decoration: BoxDecoration(
+                color: colors.outlineVariant,
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            Icon(Icons.card_giftcard_rounded, size: 42, color: colors.primary),
+
+            const SizedBox(height: 12),
+
+            const Text(
+              'Claim 50MB Bonus',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
+            ),
+
+            const SizedBox(height: 6),
+
+            Text(
+              'Confirm that you want to receive your free 50MB bonus on:',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 13, color: colors.onSurfaceVariant),
+            ),
+
+            const SizedBox(height: 14),
+
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                color: colors.surfaceContainerHighest,
+                borderRadius: BorderRadius.circular(14),
+              ),
+              child: Column(
+                children: [
+                  Text(
+                    network,
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w700,
+                      color: colors.onSurfaceVariant,
+                    ),
+                  ),
+
+                  const SizedBox(height: 4),
+
+                  Text(
+                    phoneNumber,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                  const SizedBox(height: 5),
+                  Text(
+                    '50MB • FREE',
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w800,
+                      color: colors.primary,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 18),
+
+            SizedBox(
+              width: double.infinity,
+              height: 48,
+              child: FilledButton(
+                onPressed: () async {
+                  Navigator.pop(context);
+
+                  final pinConfirmed = await showModalBottomSheet<bool>(
+                    context: context,
+                    isScrollControlled: true,
+                    backgroundColor: Colors.transparent,
+                    builder: (_) => const EnterPinSheet(),
+                  );
+
+                  if (pinConfirmed == true) {
+                    // Bonus claim will be completed here later.
+                  }
+                },
+                child: const Text(
+                  'Confirm Claim',
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 8),
+
+            SizedBox(
+              width: double.infinity,
+              height: 44,
+              child: TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text(
+                  'Cancel',
+                  style: TextStyle(fontWeight: FontWeight.w700),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+// success sheet
+
+class _BonusClaimSuccess extends StatelessWidget {
+  final String phoneNumber;
+  final String network;
+
+  const _BonusClaimSuccess({required this.phoneNumber, required this.network});
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+
+    return SafeArea(
+      child: Container(
+        padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
+        decoration: BoxDecoration(
+          color: colors.surface,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 46,
+              height: 46,
+              decoration: BoxDecoration(
+                color: colors.primary.withValues(alpha: 0.10),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(Icons.check_rounded, color: colors.primary, size: 30),
+            ),
+
+            const SizedBox(height: 14),
+
+            const Text(
+              '50MB Bonus Claimed!',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
+            ),
+
+            const SizedBox(height: 6),
+
+            Text(
+              'Your free data bonus has been sent to:',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 13, color: colors.onSurfaceVariant),
+            ),
+
+            const SizedBox(height: 14),
+
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                color: colors.surfaceContainerHighest,
+                borderRadius: BorderRadius.circular(14),
+              ),
+              child: Column(
+                children: [
+                  Text(
+                    network,
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w700,
+                      color: colors.onSurfaceVariant,
+                    ),
+                  ),
+
+                  const SizedBox(height: 4),
+
+                  Text(
+                    phoneNumber,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+
+                  const SizedBox(height: 6),
+
+                  Text(
+                    '50MB • FREE',
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w800,
+                      color: colors.primary,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 18),
+
+            SizedBox(
+              width: double.infinity,
+              height: 48,
+              child: FilledButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                },
+                child: const Text(
+                  'Done',
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _BonusPinSheet extends StatefulWidget {
+  final String phoneNumber;
+  final String network;
+
+  const _BonusPinSheet({required this.phoneNumber, required this.network});
+
+  @override
+  State<_BonusPinSheet> createState() => _BonusPinSheetState();
+}
+
+class _BonusPinSheetState extends State<_BonusPinSheet> {
+  String pin = '';
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+
+    final keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
+
+    return Padding(
+      padding: EdgeInsets.only(bottom: keyboardHeight),
+      child: Container(
+        padding: const EdgeInsets.fromLTRB(20, 14, 20, 20),
+        decoration: BoxDecoration(
+          color: colors.surface,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // ============================================================
+            // DRAG HANDLE
+            // ============================================================
+            Container(
+              width: 42,
+              height: 4,
+              decoration: BoxDecoration(
+                color: colors.outlineVariant,
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+
+            const SizedBox(height: 18),
+
+            // ============================================================
+            // LOCK ICON
+            // ============================================================
+            Icon(Icons.lock_rounded, size: 30, color: AppColors.primaryDark),
+
+            const SizedBox(height: 10),
+
+            // ============================================================
+            // TITLE
+            // ============================================================
+            const Text(
+              'Enter your PIN',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
+            ),
+
+            const SizedBox(height: 6),
+
+            Text(
+              'Enter your 4-digit transaction PIN',
+              style: TextStyle(fontSize: 13, color: colors.onSurfaceVariant),
+            ),
+
+            const SizedBox(height: 22),
+
+            // ============================================================
+            // PIN CIRCLES
+            // ============================================================
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 250),
+              curve: Curves.easeOut,
+              transform: Matrix4.translationValues(
+                0,
+                keyboardHeight > 0 ? -8 : 0,
+                0,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(4, (index) {
+                  final isFilled = index < pin.length;
+
+                  return AnimatedContainer(
+                    duration: const Duration(milliseconds: 150),
+                    curve: Curves.easeOut,
+                    margin: const EdgeInsets.symmetric(horizontal: 9),
+                    width: isFilled ? 16 : 14,
+                    height: isFilled ? 16 : 14,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: isFilled ? colors.primary : Colors.transparent,
+                      border: Border.all(
+                        color: isFilled ? colors.primary : colors.outline,
+                        width: 2,
+                      ),
+                    ),
+                  );
+                }),
+              ),
+            ),
+
+            const SizedBox(height: 22),
+
+            // ============================================================
+            // HIDDEN PIN INPUT
+            // ============================================================
+            SizedBox(
+              height: 1,
+              width: 1,
+              child: TextField(
+                autofocus: true,
+                keyboardType: TextInputType.number,
+                maxLength: 4,
+                obscureText: true,
+                onChanged: (value) {
+                  setState(() {
+                    pin = value;
+                  });
+
+                  if (value.length == 4) {
+                    FocusScope.of(context).unfocus();
+                  }
+                },
+              ),
+            ),
+
+            const SizedBox(height: 10),
+
+            // ============================================================
+            // CONFIRM BUTTON
+            // ============================================================
+            SizedBox(
+              width: double.infinity,
+              height: 48,
+              child: FilledButton(
+                onPressed: pin.length == 4 ? _verifyPin : null,
+                child: const Text(
+                  'Confirm',
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 8),
+
+            // ============================================================
+            // CANCEL
+            // ============================================================
+            SizedBox(
+              width: double.infinity,
+              height: 42,
+              child: TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text(
+                  'Cancel',
+                  style: TextStyle(fontWeight: FontWeight.w700),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _verifyPin() {
+    // We will connect this to the same saved transaction PIN.
   }
 }
