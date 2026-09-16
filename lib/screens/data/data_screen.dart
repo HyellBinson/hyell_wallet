@@ -87,18 +87,14 @@ class _DataScreenState extends State<DataScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => const TransactionSuccess(
-                            title: 'Bonus Activated!',
-                            message:
-                                'Your free 50 MB bonus has been activated.',
-                          ),
+                          builder: (_) => const DataHistoryScreen(),
                         ),
                       );
                     },
                     child: Text(
                       'History',
                       style: TextStyle(
-                        color: colors.primary,
+                        color: AppColors.primary,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
@@ -1274,7 +1270,22 @@ class _BonusClaimConfirmation extends StatelessWidget {
                   );
 
                   if (pinConfirmed == true) {
-                    // Bonus claim will be completed here later.
+                    if (!context.mounted) return;
+
+                    await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const TransactionSuccess(
+                          title: 'Bonus Activated!',
+                          message:
+                              'Your free 50 MB data bonus has been activated successfully.',
+                        ),
+                      ),
+                    );
+
+                    if (!context.mounted) return;
+
+                    Navigator.pop(context, true);
                   }
                 },
                 child: const Text(

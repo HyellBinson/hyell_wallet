@@ -22,4 +22,12 @@ class AppColors {
   static const Color error = Color(0xFFDC2626);
 
   static const Color divider = Color(0xFFE5E7EB);
+
+  static const Color backgroundDark = Color(0xFF171717);
+
+  static const Color surfaceDark = Color(0xFF2B2B2B);
+
+  static const Color textPrimaryDark = Color(0xFFF5F5F5);
+
+  static const Color textSecondaryDark = Color(0xFFA8A8A8);
 }

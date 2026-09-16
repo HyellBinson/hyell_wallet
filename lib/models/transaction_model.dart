@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hyell_wallet/core/constants/app_colors.dart';
 
 class TransactionSuccess extends StatefulWidget {
   final String title;
@@ -54,7 +55,7 @@ class _TransactionSuccessState extends State<TransactionSuccess>
     final colors = Theme.of(context).colorScheme;
 
     return Scaffold(
-      backgroundColor: colors.surface,
+      backgroundColor: AppColors.surface,
       body: SafeArea(
         child: Center(
           child: Padding(
@@ -69,14 +70,14 @@ class _TransactionSuccessState extends State<TransactionSuccess>
                     height: 110,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: colors.primary.withValues(alpha: 0.12),
+                      color: AppColors.primary.withValues(alpha: 0.12),
                     ),
                     child: ScaleTransition(
                       scale: _checkAnimation,
                       child: Icon(
                         Icons.check_circle_rounded,
                         size: 82,
-                        color: colors.primary,
+                        color: AppColors.success,
                       ),
                     ),
                   ),
