@@ -21,7 +21,9 @@ class _BalanceCardState extends State<BalanceCard> {
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 3),
       decoration: BoxDecoration(
-        color: AppColors.primaryDark,
+        color: Theme.of(context).brightness == Brightness.dark
+            ? AppColors.primaryDarkMode
+            : AppColors.primary,
         borderRadius: BorderRadius.circular(18),
       ),
       child: Column(

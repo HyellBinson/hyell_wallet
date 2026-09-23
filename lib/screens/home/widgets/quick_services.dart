@@ -3,6 +3,7 @@ import '../../data/data_screen.dart';
 import '../../airtime/airtime_screen.dart';
 import '../../electricity/electricity_screen.dart';
 import '../../more/more_screen.dart';
+import '../../../core/constants/app_colors.dart';
 
 class QuickServices extends StatelessWidget {
   const QuickServices({super.key});
@@ -101,7 +102,9 @@ class _ServiceTile extends StatelessWidget {
           color: Theme.of(context).colorScheme.surface,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: Theme.of(context).colorScheme.outlineVariant,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? AppColors.dividerDark
+                : AppColors.divider,
           ),
         ),
         child: Column(

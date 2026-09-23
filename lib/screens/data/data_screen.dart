@@ -3,8 +3,8 @@ import 'package:hyell_wallet/core/constants/app_colors.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 
 import '../data/data_plan.dart';
-import '../security/setup_pin_screen.dart';
-import '../security/enter_pin_screen.dart';
+import '../settings/setup_pin_screen.dart';
+import '../settings/enter_pin_screen.dart';
 import '../data/data_history_screen.dart';
 
 import '../../widgets/enter_pin_sheet.dart';
@@ -606,8 +606,10 @@ class _NetworkTile extends StatelessWidget {
               : colors.surface,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: isSelected ? AppColors.success : colors.outlineVariant,
-            width: isSelected ? 1.5 : 1,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? AppColors.dividerDark
+                : AppColors.divider,
+            width: 2,
           ),
         ),
         child: Row(
@@ -810,7 +812,11 @@ class _DataPlansSection extends StatelessWidget {
       decoration: BoxDecoration(
         color: colors.surface,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: colors.outlineVariant),
+        border: Border.all(
+          color: Theme.of(context).brightness == Brightness.dark
+              ? AppColors.dividerDark
+              : AppColors.divider,
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -980,7 +986,7 @@ class _DataPlanCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(14),
           border: Border.all(
             color: isSelected ? colors.primary : colors.primary,
-            width: 2,
+            width: 1,
           ),
         ),
         child: FittedBox(

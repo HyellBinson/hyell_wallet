@@ -39,7 +39,10 @@ class _MainShellState extends State<MainShell> {
                 color: Theme.of(context).colorScheme.surface,
                 borderRadius: BorderRadius.circular(22),
                 border: Border.all(
-                  color: Theme.of(context).colorScheme.outlineVariant,
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? AppColors.dividerDark
+                      : AppColors.divider,
+                  width: 1,
                 ),
               ),
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),

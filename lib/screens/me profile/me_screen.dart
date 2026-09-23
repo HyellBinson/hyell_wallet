@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hyell_wallet/core/constants/app_colors.dart';
 import '../settings/settings_screen.dart';
+import '../transaction/transactions_screen.dart';
+import '../rewards/rewards_screen.dart';
+import '../activity/activity_screen.dart';
 
 class MeScreen extends StatelessWidget {
   const MeScreen({super.key});
@@ -160,21 +163,42 @@ class MeScreen extends StatelessWidget {
                       icon: Icons.receipt_long_outlined,
                       title: 'Transaction History',
                       subtitle: 'View your data and airtime transactions',
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const TransactionsScreen(),
+                          ),
+                        );
+                      },
                     ),
 
                     _menuItem(
                       icon: Icons.card_giftcard_outlined,
                       title: 'My Rewards',
                       subtitle: 'View your bonuses and cashback',
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const RewardsScreen(),
+                          ),
+                        );
+                      },
                     ),
 
                     _menuItem(
                       icon: Icons.bar_chart_outlined,
                       title: 'My Activity',
                       subtitle: 'See your recent account activity',
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const ActivityScreen(),
+                          ),
+                        );
+                      },
                     ),
 
                     _menuItem(

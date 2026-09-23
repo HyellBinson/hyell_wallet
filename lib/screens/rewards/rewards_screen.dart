@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../data/data_screen.dart';
+import 'package:hyell_wallet/core/constants/app_colors.dart';
 
 class RewardsScreen extends StatefulWidget {
   const RewardsScreen({super.key});
@@ -35,6 +36,16 @@ class _RewardsScreenState extends State<RewardsScreen> {
               // ========================================================
               Row(
                 children: [
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(
+                      Icons.arrow_back_ios_new_rounded,
+                      size: 20,
+                    ),
+                  ),
+
                   Expanded(
                     child: Text(
                       'Rewards',
@@ -129,7 +140,12 @@ class _RewardsScreenState extends State<RewardsScreen> {
                 decoration: BoxDecoration(
                   color: colors.surface,
                   borderRadius: BorderRadius.circular(18),
-                  border: Border.all(color: colors.outlineVariant),
+                  border: Border.all(
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? AppColors.dividerDark
+                        : AppColors.divider,
+                    width: 1,
+                  ),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -201,7 +217,12 @@ class _RewardsScreenState extends State<RewardsScreen> {
                 decoration: BoxDecoration(
                   color: colors.surface,
                   borderRadius: BorderRadius.circular(18),
-                  border: Border.all(color: colors.outlineVariant),
+                  border: Border.all(
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? AppColors.dividerDark
+                        : AppColors.divider,
+                    width: 1,
+                  ),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -540,7 +561,7 @@ class _RewardsScreenState extends State<RewardsScreen> {
                           const SizedBox(width: 8),
 
                           Text(
-                            'Unlock up to 50MB',
+                            'Unlock up to 5GB Data',
                             style: TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.w800,
@@ -645,7 +666,11 @@ class _RewardEarnCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: colors.surface,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: colors.outlineVariant),
+          border: Border.all(
+            color: Theme.of(context).brightness == Brightness.dark
+                ? AppColors.dividerDark
+                : AppColors.divider,
+          ),
         ),
         child: Row(
           children: [

@@ -44,8 +44,11 @@ class _HyellWalletAppState extends State<HyellWalletApp> {
               scaffoldBackgroundColor: AppColors.background,
               colorScheme: const ColorScheme.light(
                 primary: AppColors.primary,
+                onPrimary: Colors.white,
+                primaryContainer: AppColors.primarySoft,
                 surface: AppColors.surface,
                 onSurface: AppColors.textPrimary,
+                outline: AppColors.divider,
               ),
               appBarTheme: const AppBarTheme(
                 backgroundColor: AppColors.background,
@@ -58,9 +61,12 @@ class _HyellWalletAppState extends State<HyellWalletApp> {
               brightness: Brightness.dark,
               scaffoldBackgroundColor: AppColors.backgroundDark,
               colorScheme: const ColorScheme.dark(
-                primary: AppColors.primary,
+                primary: AppColors.primaryDarkMode,
+                onPrimary: Colors.white,
+                primaryContainer: AppColors.primarySoftDark,
                 surface: AppColors.surfaceDark,
                 onSurface: AppColors.textPrimaryDark,
+                outline: AppColors.dividerDark,
               ),
               appBarTheme: const AppBarTheme(
                 backgroundColor: AppColors.backgroundDark,

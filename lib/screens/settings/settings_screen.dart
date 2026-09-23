@@ -3,7 +3,7 @@ import 'package:hyell_wallet/core/constants/app_colors.dart';
 import 'package:hyell_wallet/screens/auto_notifications/notifications_screen.dart';
 import 'package:hyell_wallet/screens/auth/change_pin_screen.dart';
 import 'package:hyell_wallet/screens/auth/biometric_screen.dart';
-import 'package:hyell_wallet/screens/security/change_login_pin_screen.dart';
+import 'package:hyell_wallet/screens/settings/change_login_pin_screen.dart';
 import 'package:hyell_wallet/screens/settings/appearance_screen.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -11,34 +11,38 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: theme.scaffoldBackgroundColor,
 
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           'Settings',
           style: TextStyle(
-            color: AppColors.textPrimary,
+            color: theme.colorScheme.onSurface,
             fontWeight: FontWeight.bold,
           ),
         ),
-        backgroundColor: AppColors.background,
+        backgroundColor: theme.scaffoldBackgroundColor,
         elevation: 0,
-        iconTheme: const IconThemeData(color: AppColors.textPrimary),
+        iconTheme: IconThemeData(color: theme.colorScheme.onSurface),
       ),
 
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const Align(
+              Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
-                  padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
+                  padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
                   child: Text(
                     'Security',
                     style: TextStyle(
-                      color: AppColors.textSecondary,
+                      color: theme.brightness == Brightness.dark
+                          ? AppColors.textSecondaryDark
+                          : AppColors.textSecondary,
                       fontSize: 13,
                       fontWeight: FontWeight.bold,
                     ),
@@ -47,6 +51,7 @@ class SettingsScreen extends StatelessWidget {
               ),
 
               _settingsItem(
+                context: context,
                 icon: Icons.password_outlined,
                 title: 'Change Login PIN',
                 subtitle: 'Change your 6-digit login PIN',
@@ -61,6 +66,7 @@ class SettingsScreen extends StatelessWidget {
               ),
 
               _settingsItem(
+                context: context,
                 icon: Icons.lock_outline,
                 title: 'Change PIN',
                 subtitle: 'Change your HYELL transaction PIN',
@@ -75,6 +81,7 @@ class SettingsScreen extends StatelessWidget {
               ),
 
               _settingsItem(
+                context: context,
                 icon: Icons.fingerprint,
                 title: 'Biometric Authentication',
                 subtitle: 'Use your fingerprint to secure HYELL',
@@ -87,22 +94,24 @@ class SettingsScreen extends StatelessWidget {
                   );
                 },
               ),
-              const Align(
+              Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
-                  padding: EdgeInsets.fromLTRB(20, 28, 20, 10),
+                  padding: const EdgeInsets.fromLTRB(20, 28, 20, 10),
                   child: Text(
                     'Notifications',
                     style: TextStyle(
-                      color: AppColors.textSecondary,
+                      color: theme.brightness == Brightness.dark
+                          ? AppColors.textSecondaryDark
+                          : AppColors.textSecondary,
                       fontSize: 13,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
               ),
-
               _settingsItem(
+                context: context,
                 icon: Icons.notifications_outlined,
                 title: 'Notifications',
                 subtitle: 'Manage your HYELL notifications',
@@ -115,14 +124,16 @@ class SettingsScreen extends StatelessWidget {
                   );
                 },
               ),
-              const Align(
+              Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(20, 28, 20, 10),
                   child: Text(
                     'Preferences',
                     style: TextStyle(
-                      color: AppColors.textSecondary,
+                      color: theme.brightness == Brightness.dark
+                          ? AppColors.textSecondaryDark
+                          : AppColors.textSecondary,
                       fontSize: 13,
                       fontWeight: FontWeight.bold,
                     ),
@@ -131,6 +142,7 @@ class SettingsScreen extends StatelessWidget {
               ),
 
               _settingsItem(
+                context: context,
                 icon: Icons.language_outlined,
                 title: 'Language',
                 subtitle: 'Choose your preferred language',
@@ -138,6 +150,7 @@ class SettingsScreen extends StatelessWidget {
               ),
 
               _settingsItem(
+                context: context,
                 icon: Icons.palette_outlined,
                 title: 'Appearance',
                 subtitle: 'Customize how HYELL looks',
@@ -151,14 +164,16 @@ class SettingsScreen extends StatelessWidget {
                 },
               ),
 
-              const Align(
+              Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(20, 28, 20, 10),
                   child: Text(
                     'About',
                     style: TextStyle(
-                      color: AppColors.textSecondary,
+                      color: theme.brightness == Brightness.dark
+                          ? AppColors.textSecondaryDark
+                          : AppColors.textSecondary,
                       fontSize: 13,
                       fontWeight: FontWeight.bold,
                     ),
@@ -167,6 +182,7 @@ class SettingsScreen extends StatelessWidget {
               ),
 
               _settingsItem(
+                context: context,
                 icon: Icons.info_outline,
                 title: 'About HYELL',
                 subtitle: 'Learn more about HYELL',
@@ -174,6 +190,7 @@ class SettingsScreen extends StatelessWidget {
               ),
 
               _settingsItem(
+                context: context,
                 icon: Icons.description_outlined,
                 title: 'Terms & Privacy',
                 subtitle: 'Read HYELL terms and privacy policy',
@@ -187,21 +204,24 @@ class SettingsScreen extends StatelessWidget {
   }
 
   Widget _settingsItem({
+    required BuildContext context,
     required IconData icon,
     required String title,
     required String subtitle,
     required VoidCallback onTap,
   }) {
+    final theme = Theme.of(context);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(12),
         child: Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: AppColors.surface,
-            borderRadius: BorderRadius.circular(16),
+            color: theme.colorScheme.surface,
+            borderRadius: BorderRadius.circular(12),
           ),
           child: Row(
             children: [
@@ -209,10 +229,10 @@ class SettingsScreen extends StatelessWidget {
                 width: 44,
                 height: 44,
                 decoration: BoxDecoration(
-                  color: AppColors.primarySoft,
-                  borderRadius: BorderRadius.circular(14),
+                  color: theme.colorScheme.primaryContainer,
+                  borderRadius: BorderRadius.circular(12),
                 ),
-                child: Icon(icon, color: AppColors.primary),
+                child: Icon(icon, color: theme.colorScheme.primary),
               ),
 
               const SizedBox(width: 14),
@@ -223,8 +243,8 @@ class SettingsScreen extends StatelessWidget {
                   children: [
                     Text(
                       title,
-                      style: const TextStyle(
-                        color: AppColors.textPrimary,
+                      style: TextStyle(
+                        color: theme.colorScheme.onSurface,
                         fontSize: 15,
                         fontWeight: FontWeight.w600,
                       ),
@@ -234,8 +254,10 @@ class SettingsScreen extends StatelessWidget {
 
                     Text(
                       subtitle,
-                      style: const TextStyle(
-                        color: AppColors.textSecondary,
+                      style: TextStyle(
+                        color: theme.brightness == Brightness.dark
+                            ? AppColors.textSecondaryDark
+                            : AppColors.textSecondary,
                         fontSize: 12,
                       ),
                     ),
@@ -243,7 +265,12 @@ class SettingsScreen extends StatelessWidget {
                 ),
               ),
 
-              const Icon(Icons.chevron_right, color: AppColors.textSecondary),
+              Icon(
+                Icons.chevron_right,
+                color: theme.brightness == Brightness.dark
+                    ? AppColors.textSecondaryDark
+                    : AppColors.textSecondary,
+              ),
             ],
           ),
         ),
