@@ -23,11 +23,16 @@ class AppColors {
 
   static const Color divider = Color(0xFFE5E7EB);
 
-  static const Color backgroundDark = Color(0xFF171717);
+  // Dark mode colors
+  static const Color backgroundDark = Color(0xFF0D0F0E);
 
-  static const Color surfaceDark = Color(0xFF2B2B2B);
+  static const Color surfaceDark = Color(0xFF181C1A);
 
-  static const Color textPrimaryDark = Color(0xFFF5F5F5);
+  static const Color textPrimaryDark = Color(0xFFF8FAF9);
 
-  static const Color textSecondaryDark = Color(0xFFA8A8A8);
+  static const Color textSecondaryDark = Color(0xFF9CA3AF);
+
+  static const Color primarySoftDark = Color(0xFF123D27);
+
+  static const Color dividerDark = Color(0xFF303532);
 }

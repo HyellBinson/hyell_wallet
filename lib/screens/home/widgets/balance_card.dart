@@ -24,7 +24,6 @@ class _BalanceCardState extends State<BalanceCard> {
         color: AppColors.primaryDark,
         borderRadius: BorderRadius.circular(18),
       ),
-
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -67,7 +66,7 @@ class _BalanceCardState extends State<BalanceCard> {
                               _isBalanceVisible
                                   ? Icons.visibility_outlined
                                   : Icons.visibility_off_outlined,
-                              color: colors.onPrimary,
+                              color: Colors.white,
                               size: 18,
                             ),
                           ),
@@ -84,7 +83,7 @@ class _BalanceCardState extends State<BalanceCard> {
                               ? '₦${widget.balance.toStringAsFixed(2)}'
                               : '₦ ••••••••',
                           style: TextStyle(
-                            color: colors.onPrimary,
+                            color: Colors.white,
                             fontSize: 25,
                             fontWeight: FontWeight.w800,
                             letterSpacing: -0.5,

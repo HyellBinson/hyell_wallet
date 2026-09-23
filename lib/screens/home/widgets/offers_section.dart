@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hyell_wallet/core/constants/app_colors.dart';
+import 'package:hyell_wallet/screens/home/widgets/rewards_preview.dart';
+import 'package:hyell_wallet/screens/rewards/rewards_screen.dart';
 
 class OffersSection extends StatelessWidget {
   const OffersSection({super.key});
@@ -33,6 +35,7 @@ class OffersSection extends StatelessWidget {
                 minimumSize: Size.zero,
                 tapTargetSize: MaterialTapTargetSize.shrinkWrap,
               ),
+
               child: const Text('See all'),
             ),
           ],
@@ -56,7 +59,7 @@ class OffersSection extends StatelessWidget {
                     Text(
                       'Get more from HYELL',
                       style: TextStyle(
-                        color: colors.onPrimary,
+                        color: Colors.white,
                         fontSize: 17,
                         fontWeight: FontWeight.w700,
                       ),
@@ -69,7 +72,7 @@ class OffersSection extends StatelessWidget {
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                        color: colors.onPrimary.withValues(alpha: 0.85),
+                        color: Colors.white.withValues(alpha: 0.85),
                         fontSize: 12,
                       ),
                     ),
@@ -77,7 +80,14 @@ class OffersSection extends StatelessWidget {
                     const SizedBox(height: 12),
 
                     FilledButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const RewardsScreen(),
+                          ),
+                        );
+                      },
                       style: FilledButton.styleFrom(
                         backgroundColor: colors.onPrimary,
                         foregroundColor: colors.primary,
@@ -96,11 +106,7 @@ class OffersSection extends StatelessWidget {
 
               const SizedBox(width: 12),
 
-              Icon(
-                Icons.card_giftcard_rounded,
-                color: colors.onPrimary,
-                size: 55,
-              ),
+              Icon(Icons.card_giftcard_rounded, color: Colors.white, size: 55),
             ],
           ),
         ),

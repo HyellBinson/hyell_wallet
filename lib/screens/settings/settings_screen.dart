@@ -4,6 +4,7 @@ import 'package:hyell_wallet/screens/auto_notifications/notifications_screen.dar
 import 'package:hyell_wallet/screens/auth/change_pin_screen.dart';
 import 'package:hyell_wallet/screens/auth/biometric_screen.dart';
 import 'package:hyell_wallet/screens/security/change_login_pin_screen.dart';
+import 'package:hyell_wallet/screens/settings/appearance_screen.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -113,6 +114,70 @@ class SettingsScreen extends StatelessWidget {
                     ),
                   );
                 },
+              ),
+              const Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(20, 28, 20, 10),
+                  child: Text(
+                    'Preferences',
+                    style: TextStyle(
+                      color: AppColors.textSecondary,
+                      fontSize: 13,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+
+              _settingsItem(
+                icon: Icons.language_outlined,
+                title: 'Language',
+                subtitle: 'Choose your preferred language',
+                onTap: () {},
+              ),
+
+              _settingsItem(
+                icon: Icons.palette_outlined,
+                title: 'Appearance',
+                subtitle: 'Customize how HYELL looks',
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const AppearanceScreen(),
+                    ),
+                  );
+                },
+              ),
+
+              const Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(20, 28, 20, 10),
+                  child: Text(
+                    'About',
+                    style: TextStyle(
+                      color: AppColors.textSecondary,
+                      fontSize: 13,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+
+              _settingsItem(
+                icon: Icons.info_outline,
+                title: 'About HYELL',
+                subtitle: 'Learn more about HYELL',
+                onTap: () {},
+              ),
+
+              _settingsItem(
+                icon: Icons.description_outlined,
+                title: 'Terms & Privacy',
+                subtitle: 'Read HYELL terms and privacy policy',
+                onTap: () {},
               ),
             ],
           ),

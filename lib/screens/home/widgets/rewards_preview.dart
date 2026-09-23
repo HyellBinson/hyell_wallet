@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../rewards/rewards_screen.dart';
 
 class RewardsPreview extends StatelessWidget {
   const RewardsPreview({super.key});
@@ -55,7 +56,12 @@ class RewardsPreview extends StatelessWidget {
           const SizedBox(width: 8),
 
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const RewardsScreen()),
+              );
+            },
             style: TextButton.styleFrom(
               padding: EdgeInsets.zero,
               minimumSize: Size.zero,

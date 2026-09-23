@@ -84,7 +84,7 @@ class _RewardsScreenState extends State<RewardsScreen> {
                     Text(
                       '2,450',
                       style: TextStyle(
-                        color: colors.onPrimary,
+                        color: Colors.white,
                         fontSize: 32,
                         fontWeight: FontWeight.w900,
                       ),
