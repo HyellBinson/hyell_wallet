@@ -64,20 +64,25 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: isDark ? AppColors.backgroundDark : AppColors.background,
 
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           'Change PIN',
           style: TextStyle(
-            color: AppColors.textPrimary,
+            color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimary,
             fontWeight: FontWeight.bold,
           ),
         ),
-        backgroundColor: AppColors.background,
+        backgroundColor: isDark
+            ? AppColors.backgroundDark
+            : AppColors.background,
         elevation: 0,
-        iconTheme: const IconThemeData(color: AppColors.textPrimary),
+        iconTheme: IconThemeData(
+          color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimary,
+        ),
       ),
 
       body: SafeArea(
@@ -86,10 +91,12 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
+              Text(
                 'Change your transaction PIN',
                 style: TextStyle(
-                  color: AppColors.textPrimary,
+                  color: isDark
+                      ? AppColors.textPrimaryDark
+                      : AppColors.textPrimary,
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
                 ),
@@ -97,24 +104,38 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
 
               const SizedBox(height: 8),
 
-              const Text(
+              Text(
                 'Enter your current PIN and create a new 4-digit PIN.',
-                style: TextStyle(color: AppColors.textSecondary, fontSize: 14),
+                style: TextStyle(
+                  color: isDark
+                      ? AppColors.textSecondaryDark
+                      : AppColors.textSecondary,
+                  fontSize: 14,
+                ),
               ),
 
               const SizedBox(height: 30),
 
-              _pinField(controller: currentPinController, label: 'Current PIN'),
+              _pinField(
+                controller: currentPinController,
+                label: 'Current PIN',
+                isDark: isDark,
+              ),
 
               const SizedBox(height: 20),
 
-              _pinField(controller: newPinController, label: 'New PIN'),
+              _pinField(
+                controller: newPinController,
+                label: 'New PIN',
+                isDark: isDark,
+              ),
 
               const SizedBox(height: 20),
 
               _pinField(
                 controller: confirmPinController,
                 label: 'Confirm New PIN',
+                isDark: isDark,
               ),
 
               const SizedBox(height: 30),
@@ -132,7 +153,9 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
                       : null,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primary,
-                    disabledBackgroundColor: AppColors.divider,
+                    disabledBackgroundColor: isDark
+                        ? AppColors.surfaceDark
+                        : AppColors.divider,
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
@@ -154,20 +177,33 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
   Widget _pinField({
     required TextEditingController controller,
     required String label,
+    required bool isDark,
   }) {
     return TextField(
       controller: controller,
       keyboardType: TextInputType.number,
       maxLength: 4,
       obscureText: true,
+
+      style: TextStyle(
+        color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimary,
+      ),
+
       onChanged: (_) {
         _checkPins();
       },
+
       decoration: InputDecoration(
         labelText: label,
         counterText: '',
         filled: true,
-        fillColor: AppColors.surface,
+
+        fillColor: isDark ? AppColors.surfaceDark : AppColors.surface,
+
+        labelStyle: TextStyle(
+          color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondary,
+        ),
+
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
           borderSide: BorderSide.none,

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hyell_wallet/core/constants/app_colors.dart';
-import 'package:hyell_wallet/screens/auto_notifications/notifications_screen.dart';
+import 'package:hyell_wallet/screens/auto_notifications/notifications_setting_screen.dart';
 import 'package:hyell_wallet/screens/auth/change_pin_screen.dart';
 import 'package:hyell_wallet/screens/auth/biometric_screen.dart';
-import 'package:hyell_wallet/screens/settings/change_login_pin_screen.dart';
+import 'package:hyell_wallet/screens/auth/change_login_pin_screen.dart';
 import 'package:hyell_wallet/screens/settings/appearance_screen.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -119,7 +119,7 @@ class SettingsScreen extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const NotificationsScreen(),
+                      builder: (context) => const NotificationsSettingScreen(),
                     ),
                   );
                 },

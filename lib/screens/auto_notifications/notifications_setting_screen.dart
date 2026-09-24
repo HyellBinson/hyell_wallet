@@ -1,48 +1,58 @@
 import 'package:flutter/material.dart';
 import 'package:hyell_wallet/core/constants/app_colors.dart';
 
-class NotificationsScreen extends StatefulWidget {
-  const NotificationsScreen({super.key});
+class NotificationsSettingScreen extends StatefulWidget {
+  const NotificationsSettingScreen({super.key});
 
   @override
-  State<NotificationsScreen> createState() => _NotificationsScreenState();
+  State<NotificationsSettingScreen> createState() =>
+      _NotificationsSettingScreenState();
 }
 
-class _NotificationsScreenState extends State<NotificationsScreen> {
+class _NotificationsSettingScreenState
+    extends State<NotificationsSettingScreen> {
   bool transactionUpdates = true;
   bool promotions = true;
   bool securityAlerts = true;
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: isDark ? AppColors.backgroundDark : AppColors.background,
 
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           'Notifications',
           style: TextStyle(
-            color: AppColors.textPrimary,
+            color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimary,
             fontWeight: FontWeight.bold,
           ),
         ),
-        backgroundColor: AppColors.background,
+        backgroundColor: isDark
+            ? AppColors.backgroundDark
+            : AppColors.background,
         elevation: 0,
-        iconTheme: const IconThemeData(color: AppColors.textPrimary),
+        iconTheme: IconThemeData(
+          color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimary,
+        ),
       ),
 
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const Align(
+              Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
-                  padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
+                  padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
                   child: Text(
                     'Notifications',
                     style: TextStyle(
-                      color: AppColors.textSecondary,
+                      color: isDark
+                          ? AppColors.textSecondaryDark
+                          : AppColors.textSecondary,
                       fontSize: 13,
                       fontWeight: FontWeight.bold,
                     ),
@@ -54,6 +64,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                 title: 'Transaction Updates',
                 subtitle: 'Get notified when your purchases are completed.',
                 value: transactionUpdates,
+                isDark: isDark,
                 onChanged: (value) {
                   setState(() {
                     transactionUpdates = value;
@@ -65,6 +76,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                 title: 'Promotions & Rewards',
                 subtitle: 'Receive HYELL bonuses, cashback and special offers.',
                 value: promotions,
+                isDark: isDark,
                 onChanged: (value) {
                   setState(() {
                     promotions = value;
@@ -76,12 +88,15 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                 title: 'Security Alerts',
                 subtitle: 'Receive important security notifications.',
                 value: securityAlerts,
+                isDark: isDark,
                 onChanged: (value) {
                   setState(() {
                     securityAlerts = value;
                   });
                 },
               ),
+
+              const SizedBox(height: 20),
             ],
           ),
         ),
@@ -93,6 +108,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
     required String title,
     required String subtitle,
     required bool value,
+    required bool isDark,
     required ValueChanged<bool> onChanged,
   }) {
     return Padding(
@@ -100,7 +116,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: AppColors.surface,
+          color: isDark ? AppColors.surfaceDark : AppColors.surface,
           borderRadius: BorderRadius.circular(16),
         ),
         child: Row(
@@ -111,8 +127,10 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                 children: [
                   Text(
                     title,
-                    style: const TextStyle(
-                      color: AppColors.textPrimary,
+                    style: TextStyle(
+                      color: isDark
+                          ? AppColors.textPrimaryDark
+                          : AppColors.textPrimary,
                       fontSize: 15,
                       fontWeight: FontWeight.w600,
                     ),
@@ -122,8 +140,10 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
 
                   Text(
                     subtitle,
-                    style: const TextStyle(
-                      color: AppColors.textSecondary,
+                    style: TextStyle(
+                      color: isDark
+                          ? AppColors.textSecondaryDark
+                          : AppColors.textSecondary,
                       fontSize: 12,
                     ),
                   ),

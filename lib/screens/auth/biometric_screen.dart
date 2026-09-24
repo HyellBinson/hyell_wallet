@@ -67,20 +67,26 @@ class _BiometricScreenState extends State<BiometricScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: isDark ? AppColors.backgroundDark : AppColors.background,
 
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           'Biometric Authentication',
           style: TextStyle(
-            color: AppColors.textPrimary,
+            color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimary,
             fontWeight: FontWeight.bold,
           ),
         ),
-        backgroundColor: AppColors.background,
+        backgroundColor: isDark
+            ? AppColors.backgroundDark
+            : AppColors.background,
         elevation: 0,
-        iconTheme: const IconThemeData(color: AppColors.textPrimary),
+        iconTheme: IconThemeData(
+          color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimary,
+        ),
       ),
 
       body: SafeArea(
@@ -94,7 +100,9 @@ class _BiometricScreenState extends State<BiometricScreen> {
                 width: 80,
                 height: 80,
                 decoration: BoxDecoration(
-                  color: AppColors.primarySoft,
+                  color: isDark
+                      ? AppColors.primary.withOpacity(0.15)
+                      : AppColors.primarySoft,
                   borderRadius: BorderRadius.circular(24),
                 ),
                 child: const Icon(
@@ -106,11 +114,13 @@ class _BiometricScreenState extends State<BiometricScreen> {
 
               const SizedBox(height: 24),
 
-              const Text(
+              Text(
                 'Biometric Security',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: AppColors.textPrimary,
+                  color: isDark
+                      ? AppColors.textPrimaryDark
+                      : AppColors.textPrimary,
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
                 ),
@@ -118,11 +128,16 @@ class _BiometricScreenState extends State<BiometricScreen> {
 
               const SizedBox(height: 10),
 
-              const Text(
+              Text(
                 'Use your fingerprint or supported biometric '
                 'authentication to help protect your HYELL account.',
                 textAlign: TextAlign.center,
-                style: TextStyle(color: AppColors.textSecondary, fontSize: 14),
+                style: TextStyle(
+                  color: isDark
+                      ? AppColors.textSecondaryDark
+                      : AppColors.textSecondary,
+                  fontSize: 14,
+                ),
               ),
 
               const SizedBox(height: 32),
@@ -130,19 +145,21 @@ class _BiometricScreenState extends State<BiometricScreen> {
               Container(
                 padding: const EdgeInsets.all(18),
                 decoration: BoxDecoration(
-                  color: AppColors.surface,
+                  color: isDark ? AppColors.surfaceDark : AppColors.surface,
                   borderRadius: BorderRadius.circular(18),
                 ),
                 child: Row(
                   children: [
-                    const Expanded(
+                    Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             'Use biometrics',
                             style: TextStyle(
-                              color: AppColors.textPrimary,
+                              color: isDark
+                                  ? AppColors.textPrimaryDark
+                                  : AppColors.textPrimary,
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
                             ),
@@ -154,7 +171,9 @@ class _BiometricScreenState extends State<BiometricScreen> {
                             'Require biometric authentication '
                             'for supported HYELL actions.',
                             style: TextStyle(
-                              color: AppColors.textSecondary,
+                              color: isDark
+                                  ? AppColors.textSecondaryDark
+                                  : AppColors.textSecondary,
                               fontSize: 12,
                             ),
                           ),

@@ -3,8 +3,8 @@ import 'package:hyell_wallet/core/constants/app_colors.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 
 import '../data/data_plan.dart';
-import '../settings/setup_pin_screen.dart';
-import '../settings/enter_pin_screen.dart';
+import '../security/setup_pin_screen.dart';
+import '../security/enter_pin_screen.dart';
 import '../data/data_history_screen.dart';
 
 import '../../widgets/enter_pin_sheet.dart';

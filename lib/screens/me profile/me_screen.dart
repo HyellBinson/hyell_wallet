@@ -4,12 +4,14 @@ import '../settings/settings_screen.dart';
 import '../transaction/transactions_screen.dart';
 import '../rewards/rewards_screen.dart';
 import '../activity/activity_screen.dart';
+import '../profile/profile_screen.dart';
 
 class MeScreen extends StatelessWidget {
   const MeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       backgroundColor: const Color(0xFF0F1916),
 
@@ -24,13 +26,24 @@ class MeScreen extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    CircleAvatar(
-                      radius: 30,
-                      backgroundColor: AppColors.backgroundDark,
-                      child: const Icon(
-                        Icons.person,
-                        size: 32,
-                        color: Colors.white,
+                    InkWell(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => const ProfileScreen(),
+                          ),
+                        );
+                      },
+                      borderRadius: BorderRadius.circular(50),
+
+                      child: CircleAvatar(
+                        radius: 30,
+                        backgroundColor: AppColors.primary,
+                        child: Icon(
+                          Icons.person,
+                          size: 32,
+                          color: isDark ? Colors.black : Colors.white,
+                        ),
                       ),
                     ),
 
@@ -154,7 +167,7 @@ class MeScreen extends StatelessWidget {
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 20),
                 decoration: BoxDecoration(
-                  color: AppColors.surface,
+                  color: isDark ? AppColors.surfaceDark : AppColors.surface,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Column(
@@ -163,6 +176,7 @@ class MeScreen extends StatelessWidget {
                       icon: Icons.receipt_long_outlined,
                       title: 'Transaction History',
                       subtitle: 'View your data and airtime transactions',
+                      isDark: isDark,
                       onTap: () {
                         Navigator.push(
                           context,
@@ -177,6 +191,7 @@ class MeScreen extends StatelessWidget {
                       icon: Icons.card_giftcard_outlined,
                       title: 'My Rewards',
                       subtitle: 'View your bonuses and cashback',
+                      isDark: isDark,
                       onTap: () {
                         Navigator.push(
                           context,
@@ -191,6 +206,7 @@ class MeScreen extends StatelessWidget {
                       icon: Icons.bar_chart_outlined,
                       title: 'My Activity',
                       subtitle: 'See your recent account activity',
+                      isDark: isDark,
                       onTap: () {
                         Navigator.push(
                           context,
@@ -205,6 +221,7 @@ class MeScreen extends StatelessWidget {
                       icon: Icons.people_outline,
                       title: 'Invite Friends',
                       subtitle: 'Invite friends and earn rewards',
+                      isDark: isDark,
                       onTap: () {},
                     ),
                   ],
@@ -217,7 +234,7 @@ class MeScreen extends StatelessWidget {
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 20),
                 decoration: BoxDecoration(
-                  color: AppColors.surface,
+                  color: isDark ? AppColors.surfaceDark : AppColors.surface,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Column(
@@ -226,6 +243,7 @@ class MeScreen extends StatelessWidget {
                       icon: Icons.security_outlined,
                       title: 'Security Center',
                       subtitle: 'Protect your HYELL account',
+                      isDark: isDark,
                       onTap: () {},
                     ),
 
@@ -233,6 +251,7 @@ class MeScreen extends StatelessWidget {
                       icon: Icons.support_agent_outlined,
                       title: 'Customer Support',
                       subtitle: 'Get help with HYELL',
+                      isDark: isDark,
                       onTap: () {},
                     ),
 
@@ -240,6 +259,7 @@ class MeScreen extends StatelessWidget {
                       icon: Icons.star_outline,
                       title: 'Rate HYELL',
                       subtitle: 'Tell us what you think',
+                      isDark: isDark,
                       onTap: () {},
                     ),
 
@@ -247,6 +267,7 @@ class MeScreen extends StatelessWidget {
                       icon: Icons.info_outline,
                       title: 'About HYELL',
                       subtitle: 'Learn more about HYELL',
+                      isDark: isDark,
                       onTap: () {},
                     ),
 
@@ -254,6 +275,7 @@ class MeScreen extends StatelessWidget {
                       icon: Icons.person_outline,
                       title: 'Log out',
                       subtitle: 'Sign out of your HYELL account',
+                      isDark: isDark,
                       onTap: () {},
                     ),
                   ],
@@ -270,6 +292,7 @@ class MeScreen extends StatelessWidget {
     required IconData icon,
     required String title,
     required String subtitle,
+    required bool isDark,
     required VoidCallback onTap,
   }) {
     return InkWell(
@@ -283,10 +306,16 @@ class MeScreen extends StatelessWidget {
               width: 44,
               height: 44,
               decoration: BoxDecoration(
-                color: AppColors.primarySoft,
+                color: isDark
+                    ? AppColors.primary.withOpacity(0.15)
+                    : AppColors.primarySoft,
                 borderRadius: BorderRadius.circular(14),
               ),
-              child: Icon(icon, color: AppColors.primary, size: 23),
+              child: const Icon(
+                Icons.circle,
+                color: AppColors.primary,
+                size: 23,
+              ),
             ),
 
             const SizedBox(width: 14),
@@ -297,8 +326,10 @@ class MeScreen extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: const TextStyle(
-                      color: AppColors.textPrimary,
+                    style: TextStyle(
+                      color: isDark
+                          ? AppColors.textPrimaryDark
+                          : AppColors.textPrimary,
                       fontSize: 15,
                       fontWeight: FontWeight.w600,
                     ),
@@ -308,8 +339,10 @@ class MeScreen extends StatelessWidget {
 
                   Text(
                     subtitle,
-                    style: const TextStyle(
-                      color: AppColors.textSecondary,
+                    style: TextStyle(
+                      color: isDark
+                          ? AppColors.textSecondaryDark
+                          : AppColors.textSecondary,
                       fontSize: 12,
                     ),
                   ),
@@ -317,9 +350,11 @@ class MeScreen extends StatelessWidget {
               ),
             ),
 
-            const Icon(
+            Icon(
               Icons.chevron_right,
-              color: AppColors.textSecondary,
+              color: isDark
+                  ? AppColors.textSecondaryDark
+                  : AppColors.textSecondary,
               size: 22,
             ),
           ],

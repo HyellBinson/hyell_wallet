@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../core/constants/app_colors.dart';
 
 import 'widgets/balance_card.dart';
 import '../home/widgets/recent_transactions.dart';
@@ -6,6 +7,7 @@ import 'widgets/quick_services.dart';
 import 'widgets/offers_section.dart';
 import 'widgets/rewards_preview.dart';
 import '../notifications/notification_screen.dart';
+import '../profile/profile_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -33,15 +35,23 @@ class HomeScreen extends StatelessWidget {
               // 🔒 FIXED HEADER
               Row(
                 children: [
-                  CircleAvatar(
-                    radius: 22,
-                    backgroundColor: isDark
-                        ? const Color(0xFF00C853)
-                        : const Color(0xFF00C853),
-                    child: Icon(
-                      Icons.person_outline,
-                      size: 24,
-                      color: isDark ? Colors.black : Colors.black,
+                  InkWell(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => const ProfileScreen(),
+                        ),
+                      );
+                    },
+                    borderRadius: BorderRadius.circular(50),
+                    child: CircleAvatar(
+                      radius: 22,
+                      backgroundColor: AppColors.primary,
+                      child: const Icon(
+                        Icons.person_outline,
+                        size: 24,
+                        color: Colors.black,
+                      ),
                     ),
                   ),
 
@@ -56,8 +66,8 @@ class HomeScreen extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 13,
                             color: isDark
-                                ? const Color(0xFF9CA3AF)
-                                : Colors.grey,
+                                ? AppColors.textSecondaryDark
+                                : AppColors.textSecondary,
                           ),
                         ),
 
@@ -69,30 +79,15 @@ class HomeScreen extends StatelessWidget {
                             fontSize: 20,
                             fontWeight: FontWeight.w700,
                             color: isDark
-                                ? const Color(0xFFF8FAF9)
-                                : const Color(0xFF101412),
+                                ? AppColors.textPrimaryDark
+                                : AppColors.textPrimary,
                           ),
                         ),
                       ],
                     ),
                   ),
 
-                  IconButton(
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (_) => const NotificationsScreen(),
-                        ),
-                      );
-                    },
-                    icon: Icon(
-                      Icons.notifications_none_rounded,
-                      size: 27,
-                      color: isDark
-                          ? const Color(0xFFF8FAF9)
-                          : const Color(0xFF101412),
-                    ),
-                  ),
+                  // Notifications stays here...
                 ],
               ),
 

@@ -92,41 +92,34 @@ class _ActivityScreenState extends State<ActivityScreen> {
 
     final filtered = filteredActivities;
 
-    Row(
-      children: [
-        IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 20),
-        ),
-
-        Expanded(
-          child: Text(
-            'Activity History',
-            style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w800),
-          ),
-        ),
-      ],
-    );
-
     return Scaffold(
       backgroundColor: backgroundColor,
-      appBar: AppBar(
-        title: Text(
-          'Activity',
-          style: TextStyle(
-            color: primaryTextColor,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        backgroundColor: backgroundColor,
-        elevation: 0,
-        iconTheme: IconThemeData(color: primaryTextColor),
-      ),
+
       body: SafeArea(
         child: Column(
           children: [
+            Row(
+              children: [
+                IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 20),
+                ),
+
+                Expanded(
+                  child: Text(
+                    'Activity History',
+                    style: const TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+
             _buildFilters(
               isDark: isDark,
               surfaceColor: surfaceColor,
